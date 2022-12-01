@@ -6,16 +6,15 @@ import { signInPage } from '../pages/signIn.page';
 
 test.describe('Sign in', async () => {
   let page: Page;
-  let browser: Browser;
   let context: BrowserContext;
   let main: mainPage;
   let signIn: signInPage;
   let home: homePage;
 
-  test.beforeAll(async () => {
+  test.beforeAll(async ({browser}) => {
     context = await browser.newContext();
   })
-  
+
   test.beforeEach(async () => {
     page = await context.newPage();
     main = new mainPage(page);
@@ -34,7 +33,7 @@ test.describe('Sign in', async () => {
     await page.close();
   });
 
-  test.afterAll(async () => {
+  test.afterAll(async ({browser}) => {
     await context.close();
     await browser.close();
   })
