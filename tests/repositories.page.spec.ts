@@ -1,11 +1,9 @@
-import { test, expect, Page, BrowserContext } from '@playwright/test';
+import { test, expect, Page, BrowserContext, Browser } from '@playwright/test';
 import { repositoriesCommon } from '../data/repositories.data';
 import { homePage } from '../pages/home.page';
-import { mainPage } from '../pages/main.page';
 import { profilePage } from '../pages/profile.page';
 import { repositoriesPage } from '../pages/repositories.page';
 import { repositoryPage } from '../pages/repository.page';
-import { signInPage } from '../pages/signIn.page';
 
 
 test.describe('Repositories', async () => {
@@ -43,9 +41,13 @@ test.describe('Repositories', async () => {
     await expect(repository.deleteConfirmedAlert).toContainText('was successfully deleted.');
   });
 
-  test.afterAll(async ({page}) => {
+  test.afterEach(async () => {
     await page.close();
-    context.close();
+  })
+
+  test.afterAll(async ({browser}) => {
+    await context.close();
+    await browser.close();
   });
 
 });
