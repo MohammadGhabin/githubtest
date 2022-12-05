@@ -11,8 +11,25 @@ export class Util {
         await this.page.goto(url);
     }
 
-    async click(locator: Locator, selector: string, nextState: "attached" | "detached" | "visible" | "hidden" | undefined){
-        await locator.click();
-        await this.page.waitForSelector(selector, {state: nextState})
+    async locator(selector: string): Promise<Locator>{
+        return this.page.locator(selector);
+    }
+
+    async click(selector: string, nextSelector: string, nextState: "attached" | "detached" | "visible" | "hidden" | undefined){
+        await (await this.locator(selector)).click();
+        await this.page.waitForSelector(nextSelector, {state: nextState})
+    }
+
+    async clickFirstMatch(selector: string, nextSelector: string, nextState: "attached" | "detached" | "visible" | "hidden" | undefined){
+        await ((await this.locator(selector)).first()).click();
+        await this.page.waitForSelector(nextSelector, {state: nextState})
+    }
+
+    async fill(selector: string, value: string){
+        await (await this.locator(selector)).fill(value);
+    }
+
+    async saveContext(contextPath: string){
+        await this.page.context().storageState({ path: contextPath });
     }
 }

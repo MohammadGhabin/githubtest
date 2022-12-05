@@ -1,28 +1,34 @@
-import { Locator, Page } from "@playwright/test"
-import { userData } from "../data/user.data";
+import { Page } from "@playwright/test"
+import { commonData } from "../data/common.data";
+import { state } from "../data/state";
 import { homePageSelectors } from "../selectors/homePage.selectors";
 import { signInPageSelectors } from "../selectors/signInPage.selectors";
 import { Util } from "../utils/util";
-import { base } from "./base.page";
 
-export class signInPage implements base{
+export class signInPage{
     page: Page;
     util: Util;
-    userName: Locator;
-    password: Locator;
-    signInButton: Locator;
 
     constructor(page: Page){
         this.page = page;
         this.util = new Util(page);
-        this.userName = this.page.locator(signInPageSelectors.userName);
-        this.password = this.page.locator(signInPageSelectors.password);
-        this.signInButton = this.page.locator(signInPageSelectors.signInButton);
     }
 
-    async signInUser(): Promise<void>{
-        await this.userName.fill(userData.email);
-        await this.password.fill(userData.password);
-        await this.util.click(this.signInButton, homePageSelectors.navigationMenu, 'attached');
+    // return true if already signed in, else return false and go to sign in page.
+    async gotoSignInPage(): Promise<boolean> {
+        await this.util.goto(commonData.githubUrl);
+        if(await (await this.util.locator(signInPageSelectors.signInLink)).isVisible()){
+            await this.util.click(signInPageSelectors.signInLink, signInPageSelectors.signInForm, state.attached);
+            return false;
+        }
+
+        return true;
+    }
+
+    async signInUser(user: { userName: string, email: string; password: string; }): Promise<void>{
+        await this.util.fill(signInPageSelectors.userName, user.email);
+        await this.util.fill(signInPageSelectors.password, user.password);
+        await this.util.click(signInPageSelectors.signInButton, homePageSelectors.navigationMenu, state.attached);
+        await this.util.saveContext(commonData.storageStatePath);
     }
 }

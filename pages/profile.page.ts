@@ -1,21 +1,19 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
+import { state } from "../data/state";
 import { profilePageSelectors } from "../selectors/profilePage.selectors";
 import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
 import { Util } from "../utils/util";
-import { base } from "./base.page";
 
-export class profilePage implements base{
+export class profilePage {
     page: Page;
     util: Util;
-    repositoriesButton: Locator;
 
     constructor(page: Page){
         this.page = page;
         this.util = new Util(page);
-        this.repositoriesButton = this.page.locator(profilePageSelectors.repositoriesButton).first();
     }
-
+    
     async gotoRepositoriesPage(): Promise<void> {
-        await this.util.click(this.repositoriesButton, repositoriesPageSelectors.searchRepositoryInput, 'attached');
+        await this.util.clickFirstMatch(profilePageSelectors.repositoriesButton, repositoriesPageSelectors.searchRepositoryInput, state.attached);
     }
 }

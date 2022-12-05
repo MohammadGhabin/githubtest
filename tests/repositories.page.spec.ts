@@ -1,9 +1,11 @@
 import { test, expect, Page, BrowserContext, Browser } from '@playwright/test';
-import { repositoriesCommon } from '../data/repositories.data';
+import { repositoriesData } from '../data/repositories.data';
+import { userData } from '../data/user.data';
 import { homePage } from '../pages/home.page';
 import { profilePage } from '../pages/profile.page';
 import { repositoriesPage } from '../pages/repositories.page';
-import { repositoryPage } from '../pages/repository.page';
+import { repositoriesPageSelectors } from '../selectors/repositoriesPage.selectors';
+import { Util } from '../utils/util';
 
 
 test.describe('Repositories', async () => {
@@ -12,7 +14,7 @@ test.describe('Repositories', async () => {
   let home: homePage;
   let profile: profilePage;
   let repositories: repositoriesPage;
-  let repository: repositoryPage;
+  let util: Util;
 
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext({ storageState: 'storageState.json' });
@@ -23,22 +25,19 @@ test.describe('Repositories', async () => {
     home = new homePage(page);
     profile = new profilePage(page);
     repositories = new repositoriesPage(page);
-    repository = new repositoryPage(page);
+    util = new Util(page);
+    await home.gotoProfilePage();
+    await profile.gotoRepositoriesPage();
   });
 
   test('Create New Repository', async () => {
-    await home.gotoProfilePage();
-    await profile.gotoRepositoriesPage();
-    await repositories.createNewRepository(repositoriesCommon.repositoryName1, repositoriesCommon.repositoryDescription1);
-    await expect(repository.repositoryNavMenu).toBeVisible();
+    await repositories.createNewRepository(repositoriesData.repository1);
+    await expect(await util.locator(repositoriesPageSelectors.repositoryNavMenu)).toBeVisible();
   });
 
-  test(' Create & Delete Repository', async () => {
-    await home.gotoProfilePage();
-    await profile.gotoRepositoriesPage();
-    await repositories.createNewRepository(repositoriesCommon.repositoryName2, repositoriesCommon.repositoryDescription1);
-    await repository.deleteRepository(repositoriesCommon.repositoryName2);
-    await expect(repository.deleteConfirmedAlert).toContainText('was successfully deleted.');
+  test('Delete Repository', async () => {
+    await repositories.deleteRepository(userData.user1.userName, repositoriesData.repository1.repositoryName);
+    await expect(await util.locator(repositoriesPageSelectors.deleteConfirmedAlert)).toContainText('was successfully deleted.');
   });
 
   test.afterEach(async () => {
@@ -49,7 +48,6 @@ test.describe('Repositories', async () => {
     await context.close();
     await browser.close();
   });
-
 });
 
 

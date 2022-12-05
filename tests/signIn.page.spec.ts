@@ -1,15 +1,17 @@
 import { test, expect, Page, BrowserContext, Browser } from '@playwright/test';
+import { userData } from '../data/user.data';
 import { homePage } from '../pages/home.page';
-import { mainPage } from '../pages/main.page';
 import { signInPage } from '../pages/signIn.page';
+import { homePageSelectors } from '../selectors/homePage.selectors';
+import { Util } from '../utils/util';
 
 
 test.describe('Sign in', async () => {
   let page: Page;
   let context: BrowserContext;
-  let main: mainPage;
   let signIn: signInPage;
   let home: homePage;
+  let util: Util; // temporary using util in test
 
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext();
@@ -17,16 +19,15 @@ test.describe('Sign in', async () => {
 
   test.beforeEach(async () => {
     page = await context.newPage();
-    main = new mainPage(page);
     signIn = new signInPage(page);
     home = new homePage(page);
+    util = new Util(page); // temporary using util in test
   });
 
   test('sign in', async () => {
-    await main.gotoSignInPage();
-    await signIn.signInUser();
-    await expect(home.navigationMenu).toBeVisible();
-    await page.context().storageState({ path: 'storageState.json' });
+    await signIn.gotoSignInPage();
+    await signIn.signInUser(userData.user1);
+    await expect(await util.locator(homePageSelectors.navigationMenu)).toBeVisible(); // temporary using util in test
   });
 
   test.afterEach(async ({page}) => {
