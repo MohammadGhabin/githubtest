@@ -11,7 +11,7 @@ test.describe('Sign in', async () => {
   let context: BrowserContext;
   let signIn: signInPage;
   let home: homePage;
-  let util: Util; // temporary using util in test
+  let util: Util;
 
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext();
@@ -21,13 +21,13 @@ test.describe('Sign in', async () => {
     page = await context.newPage();
     signIn = new signInPage(page);
     home = new homePage(page);
-    util = new Util(page); // temporary using util in test
+    util = new Util(page); 
   });
 
   test('sign in', async () => {
     await signIn.gotoSignInPage();
     await signIn.signInUser(userData.user1);
-    await expect(await util.locator(homePageSelectors.navigationMenu)).toBeVisible(); // temporary using util in test
+    await expect(await util.locator(homePageSelectors.navigationMenu)).toBeVisible(); 
   });
 
   test.afterEach(async ({page}) => {

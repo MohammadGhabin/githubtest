@@ -6,7 +6,7 @@ import { profilePage } from '../pages/profile.page';
 import { repositoriesPage } from '../pages/repositories.page';
 import { repositoriesPageSelectors } from '../selectors/repositoriesPage.selectors';
 import { Util } from '../utils/util';
-
+import {v4 as uuidv4} from 'uuid';
 
 test.describe('Repositories', async () => {
   let page: Page;
@@ -15,6 +15,7 @@ test.describe('Repositories', async () => {
   let profile: profilePage;
   let repositories: repositoriesPage;
   let util: Util;
+  let uuid = uuidv4();
 
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext({ storageState: 'storageState.json' });
@@ -26,18 +27,23 @@ test.describe('Repositories', async () => {
     profile = new profilePage(page);
     repositories = new repositoriesPage(page);
     util = new Util(page);
+    await home.gotoHomePage();
     await home.gotoProfilePage();
     await profile.gotoRepositoriesPage();
   });
 
   test('Create New Repository', async () => {
-    await repositories.createNewRepository(repositoriesData.repository1);
-    await expect(await util.locator(repositoriesPageSelectors.repositoryNavMenu)).toBeVisible();
+    let repositoriesCounter =  await repositories.getNumberOfRepositories();
+    await repositories.createNewRepository(repositoriesData.repository);
+    await new Promise(r => setTimeout(r, 2000));
+    await repositories.gotoRepositoriesPage();
+    let newRepositoriesCounter = await repositories.getNumberOfRepositories();
+    await expect(newRepositoriesCounter).toBe(repositoriesCounter+1);
   });
 
   test('Delete Repository', async () => {
-    await repositories.deleteRepository(userData.user1.userName, repositoriesData.repository1.repositoryName);
-    await expect(await util.locator(repositoriesPageSelectors.deleteConfirmedAlert)).toContainText('was successfully deleted.');
+    await repositories.createNewRepository(repositoriesData.repository);
+    await repositories.deleteRepository(userData.user1.userName, repositoriesData.repository.repositoryName);
   });
 
   test.afterEach(async () => {

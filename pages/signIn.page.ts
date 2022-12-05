@@ -29,6 +29,6 @@ export class signInPage{
         await this.util.fill(signInPageSelectors.userName, user.email);
         await this.util.fill(signInPageSelectors.password, user.password);
         await this.util.click(signInPageSelectors.signInButton, homePageSelectors.navigationMenu, state.attached);
-        await this.util.saveContext(commonData.storageStatePath);
+        this.util.saveContext(commonData.storageStatePath);
     }
 }

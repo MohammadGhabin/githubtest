@@ -1,5 +1,6 @@
 export const repositoriesPageSelectors = {
     searchRepositoryInput : '[placeholder="Find a repository…"]',
+    repositoriesCounter : '[data-tab-item="repositories"] .Counter',
     overviewButton : '[data-tab-item="overview"]',
     newRepositoryLink : '.ml-3[href="/new"]',
     repositoryNameInput : 'input[name*="repository[name]"]',
@@ -13,5 +14,5 @@ export const repositoriesPageSelectors = {
     confirmDeleteButton : '.Box-body .btn-danger',
     sudoPasswordInput : 'input[name="sudo_password"]',
     confirmPasswordButton : 'button[type="submit"]',
-    deleteConfirmedAlert : 'div[role="alert"]'
+    deleteConfirmedAlert : '[role="alert"]'
 }

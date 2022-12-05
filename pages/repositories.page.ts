@@ -1,5 +1,7 @@
 import { Page } from "@playwright/test"
 import { state } from "../data/state";
+import { homePageSelectors } from "../selectors/homePage.selectors";
+import { profilePageSelectors } from "../selectors/profilePage.selectors";
 import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
 import { Util } from "../utils/util";
 
@@ -20,10 +22,20 @@ export class repositoriesPage{
     }
 
     async deleteRepository(userName: string, repositoryName: string): Promise<void>{
-        await this.util.click(`a[href="/${userName}/${repositoryName}"]`, repositoriesPageSelectors.settingLink, state.attached); // need to remove this 
         await this.util.click(repositoriesPageSelectors.settingLink, repositoriesPageSelectors.deleteRepositoryButton, state.attached);
         await this.util.click(repositoriesPageSelectors.deleteRepositoryButton, repositoriesPageSelectors.verifyDeleteInput, state.attached);
         await this.util.fill(repositoriesPageSelectors.verifyDeleteInput, userName + '/' + repositoryName);
         await this.util.click(repositoriesPageSelectors.confirmDeleteButton, repositoriesPageSelectors.deleteConfirmedAlert, state.attached);
+    }
+
+    async getNumberOfRepositories(): Promise<number>{
+        let counter = await ((await this.util.locatorFirstMatch(repositoriesPageSelectors.repositoriesCounter)).allInnerTexts());
+        return +counter;
+    }
+
+    async gotoRepositoriesPage(): Promise<void> {
+        await this.util.click(homePageSelectors.viewProfileMenuButton, homePageSelectors.yourProfileDropDownMenuItem, state.attached);
+        await this.util.click(homePageSelectors.yourProfileDropDownMenuItem, profilePageSelectors.ContributionActivityView, state.attached);
+        await this.util.clickFirstMatch(profilePageSelectors.repositoriesButton, repositoriesPageSelectors.searchRepositoryInput, state.attached);
     }
 }

@@ -12,7 +12,11 @@ export class Util {
     }
 
     async locator(selector: string): Promise<Locator>{
-        return this.page.locator(selector);
+        return await this.page.locator(selector);
+    }
+
+    async locatorFirstMatch(selector: string): Promise<Locator>{
+        return await this.page.locator(selector).first();
     }
 
     async click(selector: string, nextSelector: string, nextState: "attached" | "detached" | "visible" | "hidden" | undefined){

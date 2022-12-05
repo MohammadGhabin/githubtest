@@ -19,8 +19,7 @@ export class homePage{
     }
 
     async gotoProfilePage(): Promise<void> {
-        await this.gotoHomePage();
         await this.util.click(homePageSelectors.viewProfileMenuButton, homePageSelectors.yourProfileDropDownMenuItem, state.attached);
-        await this.util.click(homePageSelectors.yourProfileDropDownMenuItem, profilePageSelectors.ContributionActivityView, state.attached);
+        this.util.click(homePageSelectors.yourProfileDropDownMenuItem, profilePageSelectors.ContributionActivityView, state.attached);
     }
 }
