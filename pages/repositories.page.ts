@@ -15,13 +15,17 @@ export class repositoriesPage{
     }
 
     async createNewRepository(repositoriesData: {repositoryName: string, repositoryDescription: string}): Promise<void>{
-        await this.util.click(repositoriesPageSelectors.newRepositoryLink, repositoriesPageSelectors.repositoryNameInput, state.attached);
-        await this.util.fill(repositoriesPageSelectors.repositoryNameInput, repositoriesData.repositoryName);
-        await this.util.fill(repositoriesPageSelectors.repositoryDescriptionInput, repositoriesData.repositoryDescription);
-        await this.util.click(repositoriesPageSelectors.createRepositoryButton, repositoriesPageSelectors.codeLink, state.attached);
+        if(!await (await this.util.locator(repositoriesPageSelectors.repositoryLink)).isVisible()){
+            await this.util.click(repositoriesPageSelectors.newRepositoryLink, repositoriesPageSelectors.repositoryNameInput, state.attached);
+            await this.util.fill(repositoriesPageSelectors.repositoryNameInput, repositoriesData.repositoryName);
+            await this.util.fill(repositoriesPageSelectors.repositoryDescriptionInput, repositoriesData.repositoryDescription);
+            await this.util.click(repositoriesPageSelectors.createRepositoryButton, repositoriesPageSelectors.codeLink, state.attached);
+            await this.gotoRepositoriesPage();
+        }
     }
 
     async deleteRepository(userName: string, repositoryName: string): Promise<void>{
+        await this.util.click(repositoriesPageSelectors.repositoryLink, repositoriesPageSelectors.settingLink, state.attached);
         await this.util.click(repositoriesPageSelectors.settingLink, repositoriesPageSelectors.deleteRepositoryButton, state.attached);
         await this.util.click(repositoriesPageSelectors.deleteRepositoryButton, repositoriesPageSelectors.verifyDeleteInput, state.attached);
         await this.util.fill(repositoriesPageSelectors.verifyDeleteInput, userName + '/' + repositoryName);
@@ -29,7 +33,7 @@ export class repositoriesPage{
     }
 
     async getNumberOfRepositories(): Promise<number>{
-        let counter = await ((await this.util.locatorFirstMatch(repositoriesPageSelectors.repositoriesCounter)).allInnerTexts());
+        let counter = await ((await this.util.locatorFirstMatch(repositoriesPageSelectors.repositoriesCounter)).innerText());
         return +counter;
     }
 

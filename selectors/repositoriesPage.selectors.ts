@@ -1,3 +1,5 @@
+import { repositoriesData } from "../data/repositories.data";
+
 export const repositoriesPageSelectors = {
     searchRepositoryInput : '[placeholder="Find a repository…"]',
     repositoriesCounter : '[data-tab-item="repositories"] .Counter',
@@ -12,5 +14,6 @@ export const repositoriesPageSelectors = {
     deleteRepositoryButton: '.flex-md-order-1 .boxed-action',
     verifyDeleteInput : 'input[aria-label*="delete"]',
     confirmDeleteButton : '.Box-body .btn-danger',
-    deleteConfirmedAlert : '[role="alert"]'
+    deleteConfirmedAlert : '[role="alert"]',
+    repositoryLink : `a[href*="${repositoriesData.repository.repositoryName}"]`
 }

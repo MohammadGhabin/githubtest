@@ -3,4 +3,5 @@ export const enum state {
     detached = "detached",
     visible = "visible",
     hidden = "hidden",
+    undefined = "undefined",
 }
