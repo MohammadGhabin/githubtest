@@ -3,10 +3,7 @@ import { devices } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   testDir: './tests',
-  timeout: 50 * 1000,
-  expect: {
-    timeout: 20000
-  },
+  timeout: 30000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -16,12 +13,16 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 0,
     trace: 'on-first-retry',
   },
-  
+
+  globalSetup: require.resolve('./global-setup'),
+
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
       use: {
+        baseURL: 'https://github.com/',
+        storageState: 'storageState.json',
         ...devices['Desktop Chrome'],
       },
     }

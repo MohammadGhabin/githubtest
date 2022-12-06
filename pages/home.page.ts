@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test"
-import { commonData } from "../data/common.data";
 import { state } from "../data/state";
 import { homePageSelectors } from "../selectors/homePage.selectors";
 import { profilePageSelectors } from "../selectors/profilePage.selectors";
@@ -13,13 +12,9 @@ export class homePage{
         this.page = page;
         this.util = new Util(page);
     }
-    
-    async gotoHomePage(): Promise<void> {
-        await this.util.goto(commonData.githubUrl);
-    }
 
     async gotoProfilePage(): Promise<void> {
         await this.util.click(homePageSelectors.viewProfileMenuButton, homePageSelectors.yourProfileDropDownMenuItem, state.attached);
-        this.util.click(homePageSelectors.yourProfileDropDownMenuItem, profilePageSelectors.ContributionActivityView, state.attached);
+        await this.util.click(homePageSelectors.yourProfileDropDownMenuItem, profilePageSelectors.ContributionActivityView, state.attached);
     }
 }

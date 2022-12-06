@@ -12,7 +12,5 @@ export const repositoriesPageSelectors = {
     deleteRepositoryButton: '.flex-md-order-1 .boxed-action',
     verifyDeleteInput : 'input[aria-label*="delete"]',
     confirmDeleteButton : '.Box-body .btn-danger',
-    sudoPasswordInput : 'input[name="sudo_password"]',
-    confirmPasswordButton : 'button[type="submit"]',
     deleteConfirmedAlert : '[role="alert"]'
 }

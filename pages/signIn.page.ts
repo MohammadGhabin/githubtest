@@ -14,21 +14,19 @@ export class signInPage{
         this.util = new Util(page);
     }
 
-    // return true if already signed in, else return false and go to sign in page.
-    async gotoSignInPage(): Promise<boolean> {
+    async gotoSignInPage(): Promise<void> {
         await this.util.goto(commonData.githubUrl);
-        if(await (await this.util.locator(signInPageSelectors.signInLink)).isVisible()){
-            await this.util.click(signInPageSelectors.signInLink, signInPageSelectors.signInForm, state.attached);
-            return false;
-        }
-
-        return true;
     }
 
     async signInUser(user: { userName: string, email: string; password: string; }): Promise<void>{
+        await this.util.click(signInPageSelectors.signInLink, signInPageSelectors.signInForm, state.attached);
         await this.util.fill(signInPageSelectors.userName, user.email);
         await this.util.fill(signInPageSelectors.password, user.password);
         await this.util.click(signInPageSelectors.signInButton, homePageSelectors.navigationMenu, state.attached);
-        this.util.saveContext(commonData.storageStatePath);
+    }
+
+    async signOutUser(): Promise<void>{
+        await this.util.click(homePageSelectors.viewProfileMenuButton, homePageSelectors.yourProfileDropDownMenuItem, state.attached);
+        await this.util.click(signInPageSelectors.signOutButton, signInPageSelectors.signInLink, state.attached);
     }
 }

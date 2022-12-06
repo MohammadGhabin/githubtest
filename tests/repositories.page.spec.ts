@@ -1,33 +1,33 @@
-import { test, expect, Page, BrowserContext, Browser } from '@playwright/test';
+import { test, expect, Page, BrowserContext } from '@playwright/test';
 import { repositoriesData } from '../data/repositories.data';
 import { userData } from '../data/user.data';
 import { homePage } from '../pages/home.page';
 import { profilePage } from '../pages/profile.page';
 import { repositoriesPage } from '../pages/repositories.page';
-import { repositoriesPageSelectors } from '../selectors/repositoriesPage.selectors';
 import { Util } from '../utils/util';
-import {v4 as uuidv4} from 'uuid';
+import { signInPage } from '../pages/signIn.page';
 
-test.describe('Repositories', async () => {
+test.describe.parallel('Repositories', async () => {
   let page: Page;
   let context: BrowserContext;
+  let signin: signInPage;
   let home: homePage;
   let profile: profilePage;
   let repositories: repositoriesPage;
   let util: Util;
-  let uuid = uuidv4();
 
   test.beforeAll(async ({browser}) => {
     context = await browser.newContext({ storageState: 'storageState.json' });
   });
 
-  test.beforeEach(async () => {  
+  test.beforeEach(async () => {
     page = await context.newPage();
+    signin = new signInPage(page);
     home = new homePage(page);
     profile = new profilePage(page);
     repositories = new repositoriesPage(page);
     util = new Util(page);
-    await home.gotoHomePage();
+    await signin.gotoSignInPage();
     await home.gotoProfilePage();
     await profile.gotoRepositoriesPage();
   });
@@ -35,7 +35,6 @@ test.describe('Repositories', async () => {
   test('Create New Repository', async () => {
     let repositoriesCounter =  await repositories.getNumberOfRepositories();
     await repositories.createNewRepository(repositoriesData.repository);
-    await new Promise(r => setTimeout(r, 2000));
     await repositories.gotoRepositoriesPage();
     let newRepositoriesCounter = await repositories.getNumberOfRepositories();
     await expect(newRepositoriesCounter).toBe(repositoriesCounter+1);
@@ -43,7 +42,10 @@ test.describe('Repositories', async () => {
 
   test('Delete Repository', async () => {
     await repositories.createNewRepository(repositoriesData.repository);
+    const repositoriesCounter =  await repositories.getNumberOfRepositories();
     await repositories.deleteRepository(userData.user1.userName, repositoriesData.repository.repositoryName);
+    const newRepositoriesCounter = await repositories.getNumberOfRepositories();
+    await expect(newRepositoriesCounter).toBe(repositoriesCounter-1);
   });
 
   test.afterEach(async () => {
@@ -54,6 +56,7 @@ test.describe('Repositories', async () => {
     await context.close();
     await browser.close();
   });
+  
 });
 
 
