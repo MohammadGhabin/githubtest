@@ -1,3 +1,3 @@
 export const commonData = {
-    githubUrl : 'https://github.com/',
+  githubUrl: "https://github.com/",
 };

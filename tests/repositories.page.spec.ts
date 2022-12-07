@@ -1,15 +1,14 @@
-import { test, expect, Page, BrowserContext } from '@playwright/test';
-import { repositoriesData } from '../data/repositories.data';
-import { userData } from '../data/user.data';
-import { homePage } from '../pages/home.page';
-import { profilePage } from '../pages/profile.page';
-import { repositoriesPage } from '../pages/repositories.page';
-import { Util } from '../utils/util';
-import { signInPage } from '../pages/signIn.page';
-import { repositoriesPageSelectors } from '../selectors/repositoriesPage.selectors';
+import { test, expect, Page, BrowserContext } from "@playwright/test";
+import { repositoriesData } from "../data/repositories.data";
+import { userData } from "../data/user.data";
+import { homePage } from "../pages/home.page";
+import { profilePage } from "../pages/profile.page";
+import { repositoriesPage } from "../pages/repositories.page";
+import { Util } from "../utils/util";
+import { signInPage } from "../pages/signIn.page";
+import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
 
-
-test.describe.parallel('Repositories', async () => {
+test.describe.parallel("Repositories", async () => {
   let page: Page;
   let signin: signInPage;
   let home: homePage;
@@ -17,7 +16,7 @@ test.describe.parallel('Repositories', async () => {
   let repositories: repositoriesPage;
   let util: Util;
 
-  test.beforeEach(async ({context}) => {
+  test.beforeEach(async ({ context }) => {
     page = await context.newPage();
     signin = new signInPage(page);
     home = new homePage(page);
@@ -29,29 +28,30 @@ test.describe.parallel('Repositories', async () => {
     await profile.gotoRepositoriesPage();
   });
 
-  test('Create New Repository', async () => {
+  test("Create New Repository", async () => {
     await repositories.createNewRepository(repositoriesData.repository);
-    await expect(await util.locator(repositoriesPageSelectors.repositoryLink)).toBeVisible();
+    await expect(
+      await util.locator(repositoriesPageSelectors.repositoryLink)
+    ).toBeVisible();
   });
 
-  test('Delete Repository', async () => {
+  test("Delete Repository", async () => {
     await repositories.createNewRepository(repositoriesData.repository);
-    await repositories.deleteRepository(userData.user1.userName, repositoriesData.repository.repositoryName);
-    await expect(await util.locator(repositoriesPageSelectors.repositoryLink)).not.toBeVisible();
+    await repositories.deleteRepository(
+      userData.user1.userName,
+      repositoriesData.repository.repositoryName
+    );
+    await expect(
+      await util.locator(repositoriesPageSelectors.repositoryLink)
+    ).not.toBeVisible();
   });
 
   test.afterEach(async () => {
     await page.close();
-  })
+  });
 
   // test.afterAll(async ({browser, context}) => {
   //   await context.close();
   //   await browser.close();
   // });
-  
 });
-
-
-
-
-
