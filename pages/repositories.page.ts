@@ -77,7 +77,7 @@ export class repositoriesPage {
 
   async getNumberOfRepositories(): Promise<number> {
     let counter = await (
-      await this.util.locatorFirstMatch(
+      await this.util.locator(
         repositoriesPageSelectors.repositoriesCounter
       )
     ).innerText();
@@ -91,12 +91,7 @@ export class repositoriesPage {
       state.attached
     );
     await this.util.click(
-      homePageSelectors.yourProfileDropDownMenuItem,
-      profilePageSelectors.ContributionActivityView,
-      state.attached
-    );
-    await this.util.clickFirstMatch(
-      profilePageSelectors.repositoriesButton,
+      homePageSelectors.yourRepositoriesDropDownMenuItem,
       repositoriesPageSelectors.searchRepositoryInput,
       state.attached
     );

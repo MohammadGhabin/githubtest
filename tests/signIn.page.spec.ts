@@ -16,7 +16,7 @@ test.describe.serial("Sign-in & Sign-out", async () => {
     util = new Util(page);
     await signIn.gotoSignInPage();
   });
-
+/*
   test("sign out", async () => {
     await signIn.signOutUser();
     await expect(
@@ -30,7 +30,7 @@ test.describe.serial("Sign-in & Sign-out", async () => {
       await util.locator(homePageSelectors.navigationMenu)
     ).toBeVisible();
   });
-
+*/
   test.afterEach(async () => {
     await page.close();
   });

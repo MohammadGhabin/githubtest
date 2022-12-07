@@ -15,20 +15,15 @@ export class Util {
     return await this.page.locator(selector);
   }
 
-  async locatorFirstMatch(selector: string): Promise<Locator> {
-    return await this.page.locator(selector).first();
+  // async locatorFirstMatch(selector: string): Promise<Locator> {
+  //   return await this.page.locator(selector).first();
+  // }
+
+  async LocateElementByText(text: string): Promise<Locator>{
+    return await this.page.getByText(text);
   }
 
   async click(
-    selector: string,
-    nextSelector: string,
-    nextState: "attached" | "detached" | "visible" | "hidden" | undefined
-  ) {
-    await (await this.locator(selector)).click();
-    await this.page.waitForSelector(nextSelector, { state: nextState });
-  }
-
-  async clickFirstMatch(
     selector: string,
     nextSelector: string,
     nextState: "attached" | "detached" | "visible" | "hidden" | undefined
@@ -37,7 +32,26 @@ export class Util {
     await this.page.waitForSelector(nextSelector, { state: nextState });
   }
 
+  // async clickFirstMatch(
+  //   selector: string,
+  //   nextSelector: string,
+  //   nextState: "attached" | "detached" | "visible" | "hidden" | undefined
+  // ) {
+  //   await (await this.locator(selector)).first().click();
+  //   await this.page.waitForSelector(nextSelector, { state: nextState });
+  // }
+
+  async clickTextLocator(
+    text: string,
+    nextSelector: string,
+    nextState: "attached" | "detached" | "visible" | "hidden" | undefined
+  ) {
+    await (await this.LocateElementByText(text)).first().click();
+    await this.page.waitForSelector(nextSelector, { state: nextState });
+  }
+
   async fill(selector: string, value: string) {
     await (await this.locator(selector)).fill(value);
   }
+ 
 }

@@ -1,4 +1,4 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect, Page, BrowserContext } from "@playwright/test";
 import { repositoriesData } from "../data/repositories.data";
 import { userData } from "../data/user.data";
 import { homePage } from "../pages/home.page";
@@ -7,13 +7,16 @@ import { repositoriesPage } from "../pages/repositories.page";
 import { Util } from "../utils/util";
 import { signInPage } from "../pages/signIn.page";
 import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
+import { projectsPage } from "../pages/projects.page";
+import { projectsPageSelectors } from "../selectors/projectsPage.selectors";
+import { projectsData } from "../data/projects.data";
 
-test.describe.parallel("Repositories", async () => {
+test.describe.parallel("Projects", async () => {
   let page: Page;
   let signin: signInPage;
   let home: homePage;
   let profile: profilePage;
-  let repositories: repositoriesPage;
+  let projects: projectsPage;
   let util: Util;
 
   test.beforeEach(async ({ context }) => {
@@ -21,28 +24,26 @@ test.describe.parallel("Repositories", async () => {
     signin = new signInPage(page);
     home = new homePage(page);
     profile = new profilePage(page);
-    repositories = new repositoriesPage(page);
+    projects = new projectsPage(page);
     util = new Util(page);
     await signin.gotoSignInPage();
     await home.gotoProfilePage();
-    await profile.gotoRepositoriesPage();
+    await profile.gotoProjectsPage();
   });
 
-  test("Create New Repository", async () => {
-    await repositories.createNewRepository(repositoriesData.repository);
+  test("Create New Project", async () => {
+    await projects.createNewProject();
     await expect(
-      await util.locator(repositoriesPageSelectors.repositoryLink)
+      await util.locator(projectsPageSelectors.projectNameLabel)
     ).toBeVisible();
   });
 
-  test("Delete Repository", async () => {
-    await repositories.createNewRepository(repositoriesData.repository);
-    await repositories.deleteRepository(
-      userData.user1.userName,
-      repositoriesData.repository.repositoryName
+  test("Delete Project", async () => {
+    await projects.deleteProject(
+        projectsData.project.projectName
     );
     await expect(
-      await util.locator(repositoriesPageSelectors.repositoryLink)
+      await util.LocateElementByText(projectsData.project.projectName)
     ).not.toBeVisible();
   });
 
