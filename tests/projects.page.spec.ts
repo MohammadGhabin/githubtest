@@ -1,14 +1,9 @@
-import { test, expect, Page, BrowserContext } from "@playwright/test";
-import { repositoriesData } from "../data/repositories.data";
-import { userData } from "../data/user.data";
+import { test, expect, Page } from "@playwright/test";
 import { homePage } from "../pages/home.page";
 import { profilePage } from "../pages/profile.page";
-import { repositoriesPage } from "../pages/repositories.page";
 import { Util } from "../utils/util";
 import { signInPage } from "../pages/signIn.page";
-import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
 import { projectsPage } from "../pages/projects.page";
-import { projectsPageSelectors } from "../selectors/projectsPage.selectors";
 import { projectsData } from "../data/projects.data";
 
 test.describe.parallel("Projects", async () => {
@@ -32,19 +27,17 @@ test.describe.parallel("Projects", async () => {
   });
 
   test("Create New Project", async () => {
-    await projects.createNewProject();
-    await expect(
-      await util.locator(projectsPageSelectors.projectNameLabel)
-    ).toBeVisible();
+    const projectName = projectsData.projectName;
+    await projects.createNewProject(projectName);
+    await expect(await util.LocateElementByText(projectName)).toBeVisible();
   });
 
   test("Delete Project", async () => {
-    await projects.deleteProject(
-        projectsData.project.projectName
-    );
+    const projectName = projectsData.projectName;
+    await projects.deleteProject(projectName);
     await expect(
-      await util.LocateElementByText(projectsData.project.projectName)
-    ).not.toBeVisible();
+      !(await (await util.LocateElementByText(projectName)).isVisible())
+    ).toBeFalsy();
   });
 
   test.afterEach(async () => {

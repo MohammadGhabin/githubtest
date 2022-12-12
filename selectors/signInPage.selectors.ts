@@ -1,5 +1,5 @@
 export const signInPageSelectors = {
-  signInLink: 'a[href="/login"]',
+  signInLink: 'a[href*="/login"]',
   signInForm: "form",
   userName: "#login_field",
   password: "#password",

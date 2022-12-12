@@ -23,30 +23,40 @@ export class signInPage {
     email: string;
     password: string;
   }): Promise<void> {
+    await this.util.waitForSelector(signInPageSelectors.signInLink);
     await this.util.click(
       signInPageSelectors.signInLink,
-      signInPageSelectors.signInForm,
-      state.attached
+      signInPageSelectors.signInForm
     );
+    await this.util.waitForSelector(signInPageSelectors.signInForm);
+
     await this.util.fill(signInPageSelectors.userName, user.email);
     await this.util.fill(signInPageSelectors.password, user.password);
+
+    await this.util.waitForSelector(signInPageSelectors.signInButton);
     await this.util.click(
       signInPageSelectors.signInButton,
-      homePageSelectors.navigationMenu,
-      state.attached
+      homePageSelectors.navigationMenu
     );
+    await this.util.waitForSelector(homePageSelectors.navigationMenu);
   }
 
   async signOutUser(): Promise<void> {
+    await this.util.waitForSelector(homePageSelectors.viewProfileMenuButton);
+
     await this.util.click(
       homePageSelectors.viewProfileMenuButton,
-      homePageSelectors.yourProfileDropDownMenuItem,
-      state.attached
+      homePageSelectors.yourProfileDropDownMenuItem
     );
+    await this.util.waitForSelector(
+      homePageSelectors.yourProfileDropDownMenuItem
+    );
+    await this.util.waitForSelector(signInPageSelectors.signOutButton);
+
     await this.util.click(
       signInPageSelectors.signOutButton,
-      signInPageSelectors.signInLink,
-      state.attached
+      signInPageSelectors.signInLink
     );
+    await this.util.waitForSelector(signInPageSelectors.signInLink);
   }
 }

@@ -42,8 +42,10 @@ test.describe.parallel("Repositories", async () => {
       repositoriesData.repository.repositoryName
     );
     await expect(
-      await util.locator(repositoriesPageSelectors.repositoryLink)
-    ).not.toBeVisible();
+      await (
+        await util.locator(repositoriesPageSelectors.repositoryLink)
+      ).isVisible()
+    ).toBeFalsy();
   });
 
   test.afterEach(async () => {

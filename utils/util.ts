@@ -11,47 +11,51 @@ export class Util {
     await this.page.goto(url);
   }
 
-  async locator(selector: string): Promise<Locator> {
-    return await this.page.locator(selector);
+  async reload(): Promise<void> {
+    await this.page.reload();
   }
 
-  // async locatorFirstMatch(selector: string): Promise<Locator> {
-  //   return await this.page.locator(selector).first();
-  // }
+  async locator(selector: string): Promise<Locator> {
+    return await this.page.locator(selector).first();
+  }
 
-  async LocateElementByText(text: string): Promise<Locator>{
-    return await this.page.getByText(text);
+  async LocateElementByText(text: string): Promise<Locator> {
+    return await this.page.getByText(text).first();
+  }
+
+  async waitForSelector(
+    selector: string,
+    state?: "attached" | "detached" | "visible" | "hidden" | undefined
+  ): Promise<void> {
+    await this.page.waitForSelector(selector, {
+      state: state ? state : "visible",
+    });
   }
 
   async click(
     selector: string,
     nextSelector: string,
-    nextState: "attached" | "detached" | "visible" | "hidden" | undefined
-  ) {
-    await (await this.locator(selector)).first().click();
-    await this.page.waitForSelector(nextSelector, { state: nextState });
+    nextState?: "attached" | "detached" | "visible" | "hidden" | undefined
+  ): Promise<void> {
+    await (await this.locator(selector)).click();
+    await this.waitForSelector(nextSelector, nextState ? nextState : "visible");
   }
-
-  // async clickFirstMatch(
-  //   selector: string,
-  //   nextSelector: string,
-  //   nextState: "attached" | "detached" | "visible" | "hidden" | undefined
-  // ) {
-  //   await (await this.locator(selector)).first().click();
-  //   await this.page.waitForSelector(nextSelector, { state: nextState });
-  // }
 
   async clickTextLocator(
     text: string,
     nextSelector: string,
-    nextState: "attached" | "detached" | "visible" | "hidden" | undefined
-  ) {
-    await (await this.LocateElementByText(text)).first().click();
-    await this.page.waitForSelector(nextSelector, { state: nextState });
+    nextState?: "attached" | "detached" | "visible" | "hidden" | undefined
+  ): Promise<void> {
+    await (await this.LocateElementByText(text)).click();
+    await this.waitForSelector(nextSelector, nextState ? nextState : "visible");
   }
 
-  async fill(selector: string, value: string) {
+  async KeyboardType(selector: string, text: string): Promise<void> {
+    await (await this.locator(selector)).click();
+    await this.page.keyboard.type(text);
+  }
+
+  async fill(selector: string, value: string): Promise<void> {
     await (await this.locator(selector)).fill(value);
   }
- 
 }

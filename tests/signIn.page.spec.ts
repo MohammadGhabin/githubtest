@@ -16,7 +16,7 @@ test.describe.serial("Sign-in & Sign-out", async () => {
     util = new Util(page);
     await signIn.gotoSignInPage();
   });
-/*
+  /*
   test("sign out", async () => {
     await signIn.signOutUser();
     await expect(

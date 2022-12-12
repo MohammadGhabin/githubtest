@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { state } from "../data/state";
 import { homePageSelectors } from "../selectors/homePage.selectors";
 import { profilePageSelectors } from "../selectors/profilePage.selectors";
 import { Util } from "../utils/util";
@@ -16,13 +15,18 @@ export class homePage {
   async gotoProfilePage(): Promise<void> {
     await this.util.click(
       homePageSelectors.viewProfileMenuButton,
-      homePageSelectors.yourProfileDropDownMenuItem,
-      state.attached
+      homePageSelectors.yourProfileDropDownMenuItem
     );
+    await this.util.waitForSelector(
+      homePageSelectors.yourProfileDropDownMenuItem
+    );
+
     await this.util.click(
       homePageSelectors.yourProfileDropDownMenuItem,
-      profilePageSelectors.ContributionActivityView,
-      state.attached
+      profilePageSelectors.ContributionActivityView
+    );
+    await this.util.waitForSelector(
+      profilePageSelectors.ContributionActivityView
     );
   }
 }
