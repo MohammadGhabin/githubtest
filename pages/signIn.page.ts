@@ -1,6 +1,5 @@
 import { Page } from "@playwright/test";
 import { commonData } from "../data/common.data";
-import { state } from "../data/state";
 import { homePageSelectors } from "../selectors/homePage.selectors";
 import { signInPageSelectors } from "../selectors/signInPage.selectors";
 import { Util } from "../utils/util";

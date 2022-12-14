@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tests": "npx playwright test",
+    "preinstall": "npx playwright test tests/independent-tests/",
     "headed": "npx playwright test --headed",
     "debug": "npx playwright test --debug",
     "help": "npx playwright test --help",
     "chromium": "npx playwright test --project=chromium",
     "egde": "npx playwright test --project=Microsoft Edge",
-    "webkit": "npx playwright test --project=webkit"
+    "webkit": "npx playwright test --project=webkit",
+    "postinstall": "npx playwright test tests/dependent-tests/"
   },
   "keywords": [],
   "author": "",
@@ -20,8 +21,6 @@
     "@types/uuid": "^9.0.0"
   },
   "dependencies": {
-    "async-await-mutex-lock": "^1.0.10",
-    "mutex": "^1.0.2",
     "uuid": "^9.0.0"
   }
 }

@@ -25,7 +25,8 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: "chromium",
-      testMatch: /.*.page.spec.ts/,
+      //^((?!\bword\b).)*$
+      testMatch: /^((?!signIn).)*$/,
       use: {
         baseURL: commonData.githubUrl,
         storageState: commonData.storageState,
@@ -34,7 +35,7 @@ const config: PlaywrightTestConfig = {
     },
     {
       name: "webkit",
-      testMatch: /.*.page.spec.ts/,
+      testMatch: /^((?!signIn).)*$/,
       use: {
         baseURL: commonData.githubUrl,
         storageState: commonData.storageState,
@@ -43,7 +44,7 @@ const config: PlaywrightTestConfig = {
     },
     {
       name: "Microsoft Edge",
-      testMatch: /.*.page.spec.ts/,
+      testMatch: /.*\.spec\.ts/,
       use: {
         baseURL: commonData.githubUrl,
         storageState: commonData.storageState,

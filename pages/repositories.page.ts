@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { state } from "../data/state";
 import { homePageSelectors } from "../selectors/homePage.selectors";
 import { repositoriesPageSelectors } from "../selectors/repositoriesPage.selectors";
 import { Util } from "../utils/util";

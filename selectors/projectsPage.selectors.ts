@@ -11,5 +11,5 @@ export const projectsPageSelectors = {
   deleteProjectButton: '[data-test-id="delete-project-button"]',
   verifyDeleteInput: 'input[aria-label*="delete"]',
   confirmDeleteButton: ".gtbLNH",
-  projectsPageLink: `[href="/users/${userData.user1.userName}/projects"]`,
+  projectsPageLink: `[href="/users/${userData.user2.userName}/projects"]`,
 };

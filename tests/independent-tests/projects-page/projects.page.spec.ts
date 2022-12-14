@@ -1,10 +1,10 @@
 import { test, expect, Page } from "@playwright/test";
-import { homePage } from "../pages/home.page";
-import { profilePage } from "../pages/profile.page";
-import { Util } from "../utils/util";
-import { signInPage } from "../pages/signIn.page";
-import { projectsPage } from "../pages/projects.page";
-import { projectsData } from "../data/projects.data";
+import { homePage } from "../../../pages/home.page";
+import { profilePage } from "../../../pages/profile.page";
+import { Util } from "../../../utils/util";
+import { signInPage } from "../../../pages/signIn.page";
+import { projectsPage } from "../../../pages/projects.page";
+import { projectsData } from "../../../data/projects.data";
 
 test.describe.parallel("Projects", async () => {
   let page: Page;
