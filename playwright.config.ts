@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
   reporter: "html",
   testMatch: "*.page.spec.ts",
   use: {
-    viewport: { width: 1280, height: 720 },
+    viewport: { width: 1280, height: 1920 },
     trace: "on-first-retry",
     video: "on-first-retry",
     screenshot: "only-on-failure",
@@ -25,7 +25,6 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: "chromium",
-      //^((?!\bword\b).)*$
       testMatch: /^((?!signIn).)*$/,
       use: {
         baseURL: commonData.githubUrl,
