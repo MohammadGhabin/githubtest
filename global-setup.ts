@@ -11,7 +11,7 @@ async function globalSetup(config: FullConfig) {
   const page = await context.newPage();
   const util = new Util(page);
   const signin = new signInPage(page);
-  await util.goto(baseURL as string);
+  await signin.gotoSignInPage();
   await signin.signInUser(userData.user2);
   await page.context().storageState({ path: storageState as string });
   await page.close();
