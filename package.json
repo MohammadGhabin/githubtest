@@ -10,8 +10,7 @@
     "help": "npx playwright test --help",
     "chromium": "npx playwright test --project=chromium",
     "egde": "npx playwright test --project=Microsoft Edge",
-    "webkit": "npx playwright test --project=webkit",
-    "postinstall": "npx playwright test tests/dependent-tests/"
+    "webkit": "npx playwright test --project=webkit"
   },
   "keywords": [],
   "author": "",
