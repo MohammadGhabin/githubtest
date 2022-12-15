@@ -5,6 +5,7 @@ import { commonData } from "./data/common.data";
 const config: PlaywrightTestConfig = {
   testDir: "./tests",
   timeout: 60000,
+  
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 3 : 0,
@@ -14,9 +15,11 @@ const config: PlaywrightTestConfig = {
   testMatch: "*.page.spec.ts",
   use: {
     viewport: { width: 1280, height: 1920 },
-    trace: "retain-on-failure",
-    video: "retain-on-failure",
+    trace: "on",
+    video: "on",
     screenshot: "only-on-failure",
+    actionTimeout: 10 * 1000,
+    navigationTimeout: 30 * 1000,
   },
 
   globalSetup: require.resolve("./global-setup"),
