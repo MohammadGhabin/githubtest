@@ -38,6 +38,7 @@ export class Util {
     nextState?: "attached" | "detached" | "visible" | "hidden" | undefined
   ): Promise<void> {
     await (await this.locator(selector)).click();
+    await console.log(this.page.url + '\n');
     await this.waitForSelector(nextSelector, nextState ? nextState : "visible");
   }
 
