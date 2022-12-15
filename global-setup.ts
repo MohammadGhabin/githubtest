@@ -15,8 +15,6 @@ async function globalSetup(config: FullConfig) {
   await signin.signInUser(userData.user2);
   await page.context().storageState({ path: storageState as string });
   await page.close();
-  await context.close();
-  await browser.close();
 }
 
 export default globalSetup;
