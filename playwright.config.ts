@@ -14,8 +14,8 @@ const config: PlaywrightTestConfig = {
   testMatch: "*.page.spec.ts",
   use: {
     viewport: { width: 1280, height: 1920 },
-    trace: "on-first-retry",
-    video: "on-first-retry",
+    trace: "retain-on-failure",
+    video: "retain-on-failure",
     screenshot: "only-on-failure",
   },
 
