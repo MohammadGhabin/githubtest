@@ -125,4 +125,47 @@ export class repositoriesPage {
       repositoriesPageSelectors.searchRepositoryInput
     );
   }
+
+  async linkProjectWithRepository(
+    projectName: string
+  ): Promise<void> {
+    await this.util.waitForSelector(repositoriesPageSelectors.repositoryLink);
+    await this.util.click(
+      repositoriesPageSelectors.repositoryLink,
+      repositoriesPageSelectors.projectsLink
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.projectsLink);
+
+    await this.util.click(
+      repositoriesPageSelectors.projectsLink,
+      repositoriesPageSelectors.linkProjectButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.linkProjectButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.linkProjectButton,
+      repositoriesPageSelectors.projectSelector
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.projectSelector);
+
+    await this.util.fill(
+      repositoriesPageSelectors.searchProjectInput,
+      projectName
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.projectLink);
+
+    await this.util.click(
+      repositoriesPageSelectors.projectLink,
+      repositoriesPageSelectors.linkProjectButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.linkProjectButton
+    );
+    await this.util.click(
+      repositoriesPageSelectors.linkProjectButton,
+      repositoriesPageSelectors.projectsSearchInput
+    );
+  }
 }

@@ -7,6 +7,8 @@ import { Util } from "../../../utils/util";
 import { signInPage } from "../../../pages/signIn.page";
 import { repositoriesPageSelectors } from "../../../selectors/repositoriesPage.selectors";
 import { repositoriesData } from "../../../data/repositories.data";
+import { projectsPage } from "../../../pages/projects.page";
+import { projectsData } from "../../../data/projects.data";
 
 test.describe.parallel("Repositories", async () => {
   let page: Page;
@@ -14,6 +16,7 @@ test.describe.parallel("Repositories", async () => {
   let home: homePage;
   let profile: profilePage;
   let repositories: repositoriesPage;
+  let projects: projectsPage;
   let util: Util;
 
   test.beforeEach(async ({ context }) => {
@@ -22,6 +25,7 @@ test.describe.parallel("Repositories", async () => {
     home = new homePage(page);
     profile = new profilePage(page);
     repositories = new repositoriesPage(page);
+    projects = new projectsPage(page);
     util = new Util(page);
     await signin.gotoSignInPage();
     await home.gotoProfilePage();
@@ -48,12 +52,21 @@ test.describe.parallel("Repositories", async () => {
     ).toBeFalsy();
   });
 
+  test("Link Project", async () => {
+    const projectName = projectsData.projectName;
+    await repositories.createNewRepository(repositoriesData.repository);
+    await profile.gotoProjectsPage();
+    await projects.createNewProject(projectName);
+    await profile.gotoRepositoriesPage();
+    await repositories.linkProjectWithRepository(
+      repositoriesData.repository.repositoryName
+    );
+    await expect(
+      await (await util.LocateElementByText(projectName)).isVisible()
+    ).toBeTruthy();
+  });
+
   test.afterEach(async () => {
     await page.close();
   });
-
-  // test.afterAll(async ({browser, context}) => {
-  //   await context.close();
-  //   await browser.close();
-  // });
 });
