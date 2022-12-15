@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, request } from "@playwright/test";
 
 export class Util {
   page: Page;
@@ -38,7 +38,7 @@ export class Util {
     nextState?: "attached" | "detached" | "visible" | "hidden" | undefined
   ): Promise<void> {
     await (await this.locator(selector)).click();
-    await console.log(this.page.url + '\n');
+    await this.page.screenshot({path: 'screenshot/fullPage.png', fullPage: true});
     await this.waitForSelector(nextSelector, nextState ? nextState : "visible");
   }
 
