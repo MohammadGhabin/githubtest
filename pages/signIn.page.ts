@@ -35,9 +35,9 @@ export class signInPage {
     await this.util.waitForSelector(signInPageSelectors.signInButton);
     await this.util.click(
       signInPageSelectors.signInButton,
-      homePageSelectors.viewProfileMenuButton
+      homePageSelectors.navigationMenu
     );
-    await this.util.waitForSelector(homePageSelectors.viewProfileMenuButton);
+    await this.util.waitForSelector(homePageSelectors.navigationMenu);
   }
 
   async signOutUser(): Promise<void> {

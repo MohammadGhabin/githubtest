@@ -29,6 +29,7 @@ export class Util {
   ): Promise<void> {
     await this.page.waitForSelector(selector, {
       state: state ? state : "visible",
+      timeout: 10000
     });
   }
 
