@@ -39,7 +39,7 @@ export class Util {
   ): Promise<void> {
     await (await this.locator(selector)).click();
     await this.page.screenshot({path: 'screenshot/fullPage.png', fullPage: true});
-    await this.waitForSelector(nextSelector, nextState ? nextState : "visible");
+    await this.waitForSelector(nextSelector, nextState ? nextState : "attached");
   }
 
   async clickTextLocator(
