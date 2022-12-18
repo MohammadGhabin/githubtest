@@ -38,6 +38,10 @@ export class signInPage {
       homePageSelectors.navigationMenu
     );
     await this.util.waitForSelector(homePageSelectors.navigationMenu);
+
+    // if(await (await this.util.locator(signInPageSelectors.deviceVerificationView)).isVisible){
+    //   const newPage: Page = 
+    // }
   }
 
   async signOutUser(): Promise<void> {

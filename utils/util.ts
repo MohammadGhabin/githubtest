@@ -39,8 +39,8 @@ export class Util {
     nextState?: "attached" | "detached" | "visible" | "hidden" | undefined
   ): Promise<void> {
     await (await this.locator(selector)).click();
-    await this.page.screenshot({path: 'test-results/fullPage.png', fullPage: true});
-    await console.log(await this.page.content());
+    // await this.page.screenshot({path: 'test-results/fullPage.png', fullPage: true});
+    // await console.log(await this.page.content());
     await this.waitForSelector(nextSelector, nextState ? nextState : "attached");
   }
 

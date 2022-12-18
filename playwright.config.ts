@@ -15,8 +15,8 @@ const config: PlaywrightTestConfig = {
   testMatch: "*.page.spec.ts",
   use: {
     viewport: { width: 1280, height: 1920 },
-    trace: "on",
-    video: "on",
+    trace: "retain-on-failure",
+    video: "retain-on-failure",
     screenshot: "only-on-failure",
     actionTimeout: 10 * 1000,
     navigationTimeout: 30 * 1000,
@@ -33,15 +33,6 @@ const config: PlaywrightTestConfig = {
         baseURL: commonData.githubUrl,
         storageState: commonData.storageState,
         ...devices["Desktop Chrome"],
-      },
-    },
-    {
-      name: "webkit",
-      testMatch: /^((?!signIn).)*$/,
-      use: {
-        baseURL: commonData.githubUrl,
-        storageState: commonData.storageState,
-        ...devices["Desktop Safari"],
       },
     },
     {
