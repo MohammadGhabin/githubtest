@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tests": "npx playwright test tests/independent-tests/ --headed",
+    "tests": "npx playwright test tests/independent-tests/",
     "headed": "npx playwright test --headed",
     "debug": "npx playwright test --debug",
     "help": "npx playwright test --help",

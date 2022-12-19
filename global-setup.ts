@@ -3,6 +3,7 @@ import { chromium, FullConfig, request } from "@playwright/test";
 import { userData } from "./data/user.data";
 import { signInPage } from "./pages/signIn.page";
 import * as fs from "fs";
+import { commonData } from "./data/common.data";
 
 async function globalSetup(config: FullConfig) {
   const requestContext = await request.newContext();
@@ -10,28 +11,38 @@ async function globalSetup(config: FullConfig) {
     "https://api.jsonbin.io/v3/b/639ec82ddfc68e59d56b29bc",
     {
       headers: {
-        "X-Master-Key":
+        "X-ACCESS-KEY":
           "$2b$10$c1bjs8RhM6QHo4qLpsmdSe3vEM7KFrkpeqXfL1YCwUTtzW4P5N7zS",
       },
-      timeout: 2000,
+      timeout: 3000,
     }
   );
+
   if (response.ok()) {
-    var json = JSON.stringify(response.text);
-    fs.writeFile("storageState.json", json, "utf8", function (error) {
-      if (error) throw error;
+    var json = await (await response.json())?.record;
+    await fs.writeFile("storageState.json", JSON.stringify(json), (error) => {
+      if (error) {
+        console.log("An error has occurred ", error);
+        return;
+      }
+      console.log("Data written successfully to json file");
     });
-  } else {
-    const browser = await chromium.launch();
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    const signin = new signInPage(page);
-    await signin.gotoSignInPage();
+  }
+
+  const browser = await chromium.launch();
+  const context = await browser.newContext({
+    storageState: commonData.storageState,
+  });
+  const page = await context.newPage();
+  const signin = new signInPage(page);
+  await signin.gotoSignInPage();
+  if (!response.ok()) {
+    await console.log("request failed!!");
     await signin.signInUser(userData.user2);
     const { storageState } = config.projects[0].use;
     await page.context().storageState({ path: storageState as string });
-    await page.close();
   }
+  await page.close();
 }
 
 export default globalSetup;
