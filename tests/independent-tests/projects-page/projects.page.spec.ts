@@ -43,9 +43,4 @@ test.describe.parallel("Projects", async () => {
   test.afterEach(async () => {
     await page.close();
   });
-
-  // test.afterAll(async ({browser, context}) => {
-  //   await context.close();
-  //   await browser.close();
-  // });
 });

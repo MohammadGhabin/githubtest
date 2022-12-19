@@ -4,6 +4,8 @@ import { userData } from "./data/user.data";
 import { signInPage } from "./pages/signIn.page";
 import * as fs from "fs";
 import { commonData } from "./data/common.data";
+import { Util } from "./utils/util";
+import { signInPageSelectors } from "./selectors/signInPage.selectors";
 
 async function globalSetup(config: FullConfig) {
   const requestContext = await request.newContext();
@@ -34,10 +36,10 @@ async function globalSetup(config: FullConfig) {
     storageState: commonData.storageState,
   });
   const page = await context.newPage();
-  const signin = new signInPage(page);
+  const signin = await new signInPage(page);
+  const util = await new Util(page);
   await signin.gotoSignInPage();
-  if (!response.ok()) {
-    await console.log("request failed!!");
+  if (await (await util.locator(signInPageSelectors.signInLink)).isVisible()) {
     await signin.signInUser(userData.user2);
     const { storageState } = config.projects[0].use;
     await page.context().storageState({ path: storageState as string });
