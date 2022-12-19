@@ -59,7 +59,7 @@ test.describe.parallel("Repositories", async () => {
     await projects.createNewProject(projectName);
     await profile.gotoRepositoriesPage();
     await repositories.linkProjectWithRepository(
-      repositoriesData.repository.repositoryName
+      projectName
     );
     await expect(
       await (await util.LocateElementByText(projectName)).isVisible()

@@ -167,5 +167,9 @@ export class repositoriesPage {
       repositoriesPageSelectors.linkProjectButton,
       repositoriesPageSelectors.projectsSearchInput
     );
+    await this.page.once('load', () => console.log('Page loaded!'));
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.projectsSearchInput
+    );
   }
 }
