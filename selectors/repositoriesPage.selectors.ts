@@ -1,5 +1,3 @@
-import { repositoriesData } from "../data/repositories.data";
-
 export const repositoriesPageSelectors = {
   searchRepositoryInput: '[placeholder="Find a repository…"]',
   repositoriesCounter: '[data-tab-item="repositories"] .Counter',
@@ -16,10 +14,12 @@ export const repositoriesPageSelectors = {
   verifyDeleteInput: 'input[aria-label*="delete"]',
   confirmDeleteButton: ".Box-body .btn-danger",
   deleteConfirmedAlert: '[role="alert"]',
-  repositoryLink: `a[href*="${repositoriesData.repository.repositoryName}"]`,
+  repositoryLink: 'a[href*="',
   linkProjectButton: '[data-default-action-text*="Link a project"]',
   projectSelector: 'memex-project-picker',
   searchProjectInput: '#query',
   projectLink: '.Truncate-text strong',
-  projectsSearchInput: '#project-search-input'
+  projectsSearchInput: '#project-search-input',
+  repositoryRenameInput: '[name="new_name"]',
+  renameButton: '.flex-self-end'
 };

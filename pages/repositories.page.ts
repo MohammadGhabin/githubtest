@@ -6,6 +6,7 @@ import { Util } from "../utils/util";
 export class repositoriesPage {
   page: Page;
   util: Util;
+  repositoryLink: string = repositoriesPageSelectors.repositoryLink;
 
   constructor(page: Page) {
     this.page = page;
@@ -16,9 +17,10 @@ export class repositoriesPage {
     repositoryName: string;
     repositoryDescription: string;
   }): Promise<void> {
+    const receivedRepositoryLink = this.repositoryLink + repositoriesData.repositoryName + '"]';
     if (
       !(await (
-        await this.util.locator(repositoriesPageSelectors.repositoryLink)
+        await this.util.locator(receivedRepositoryLink)
       ).isVisible())
     ) {
       await this.util.waitForSelector(
@@ -57,9 +59,10 @@ export class repositoriesPage {
     userName: string,
     repositoryName: string
   ): Promise<void> {
-    await this.util.waitForSelector(repositoriesPageSelectors.repositoryLink);
+    const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
+    await this.util.waitForSelector(receivedRepositoryLink);
     await this.util.click(
-      repositoriesPageSelectors.repositoryLink,
+      receivedRepositoryLink,
       repositoriesPageSelectors.settingLink
     );
     await this.util.waitForSelector(repositoriesPageSelectors.settingLink);
@@ -127,11 +130,14 @@ export class repositoriesPage {
   }
 
   async linkProjectWithRepository(
-    projectName: string
+    projectName: string,
+    repositoryName
   ): Promise<void> {
-    await this.util.waitForSelector(repositoriesPageSelectors.repositoryLink);
+    const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
+
+    await this.util.waitForSelector(receivedRepositoryLink);
     await this.util.click(
-      repositoriesPageSelectors.repositoryLink,
+      receivedRepositoryLink,
       repositoriesPageSelectors.projectsLink
     );
     await this.util.waitForSelector(repositoriesPageSelectors.projectsLink);
@@ -171,5 +177,34 @@ export class repositoriesPage {
     await this.util.waitForSelector(
       repositoriesPageSelectors.projectsSearchInput
     );
+  }
+
+  async renameRepository(repositoryName: string, newName: string): Promise<void> {
+    const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
+
+    await this.util.waitForSelector(receivedRepositoryLink);
+    await this.util.click(
+      receivedRepositoryLink,
+      repositoriesPageSelectors.settingLink
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.settingLink);
+
+    await this.util.click(
+      repositoriesPageSelectors.settingLink,
+      repositoriesPageSelectors.repositoryRenameInput
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.repositoryRenameInput
+    );
+
+    await this.util.fill(repositoriesPageSelectors.repositoryRenameInput, newName);
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.renameButton
+    );
+    await this.util.click(
+      repositoriesPageSelectors.renameButton,
+      repositoriesPageSelectors.codeLink
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.codeLink);
   }
 }
