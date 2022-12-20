@@ -40,7 +40,7 @@ export class signInPage {
     await this.util.waitForSelector(homePageSelectors.navigationMenu);
 
     // if(await (await this.util.locator(signInPageSelectors.deviceVerificationView)).isVisible){
-    //   const newPage: Page = 
+    //   const newPage: Page =
     // }
   }
 

@@ -6,6 +6,6 @@ export const signInPageSelectors = {
   signInButton: 'input[value="Sign in"]',
   signOutButton: 'button[data-ga-click*="sign out"]',
   globalNavMenu: 'nav[aria-label*="Global"]',
-  deviceVerificationView: '#device-verification-prompt',
-  verificationCodeInput: '#otp'
+  deviceVerificationView: "#device-verification-prompt",
+  verificationCodeInput: "#otp",
 };

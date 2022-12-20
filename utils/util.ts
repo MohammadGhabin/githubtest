@@ -1,4 +1,5 @@
-import { Locator, Page, request } from "@playwright/test";
+// import { Locator, Page, request } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class Util {
   page: Page;
@@ -29,7 +30,7 @@ export class Util {
   ): Promise<void> {
     await this.page.waitForSelector(selector, {
       state: state ? state : "visible",
-      timeout: 10000
+      timeout: 10000,
     });
   }
 
@@ -41,7 +42,10 @@ export class Util {
     await (await this.locator(selector)).click();
     // await this.page.screenshot({path: 'test-results/fullPage.png', fullPage: true});
     // await console.log(await this.page.content());
-    await this.waitForSelector(nextSelector, nextState ? nextState : "attached");
+    await this.waitForSelector(
+      nextSelector,
+      nextState ? nextState : "attached"
+    );
   }
 
   async clickTextLocator(

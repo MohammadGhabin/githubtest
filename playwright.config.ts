@@ -5,7 +5,7 @@ import { commonData } from "./data/common.data";
 const config: PlaywrightTestConfig = {
   testDir: "./tests",
   timeout: 60000,
-  
+
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 3 : 0,

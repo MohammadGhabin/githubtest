@@ -1,4 +1,4 @@
-import { test, expect, Page, BrowserContext, Browser } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import { userData } from "../../../data/user.data";
 import { signInPage } from "../../../pages/signIn.page";
 import { homePageSelectors } from "../../../selectors/homePage.selectors";

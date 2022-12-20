@@ -34,16 +34,18 @@ test.describe.parallel("Repositories", async () => {
   });
 
   test("Create New Repository", async () => {
-    let repo = repositoriesData;
+    const repo = repositoriesData;
     repo.repositoryName += uuidv4();
     await repositories.createNewRepository(repo);
     await expect(
-      await util.locator(repositoriesPageSelectors.repositoryLink + repo.repositoryName + '"]')
+      await util.locator(
+        repositoriesPageSelectors.repositoryLink + repo.repositoryName + '"]'
+      )
     ).toBeVisible();
   });
 
   test("Delete Repository", async () => {
-    let repo = repositoriesData;
+    const repo = repositoriesData;
     repo.repositoryName += uuidv4();
     await repositories.createNewRepository(repo);
     await repositories.deleteRepository(
@@ -52,13 +54,15 @@ test.describe.parallel("Repositories", async () => {
     );
     await expect(
       await (
-        await util.locator(repositoriesPageSelectors.repositoryLink + repo.repositoryName + '"]')
+        await util.locator(
+          repositoriesPageSelectors.repositoryLink + repo.repositoryName + '"]'
+        )
       ).isVisible()
     ).toBeFalsy();
   });
 
   test("Link Project", async () => {
-    let repo = repositoriesData;
+    const repo = repositoriesData;
     repo.repositoryName += uuidv4();
     const projectName = projectsData.projectName + uuidv4();
     await repositories.createNewRepository(repo);
@@ -75,7 +79,7 @@ test.describe.parallel("Repositories", async () => {
   });
 
   test("Rename Repository", async () => {
-    let repo = repositoriesData;
+    const repo = repositoriesData;
     repo.repositoryName += uuidv4();
     const newRepositoryName = uuidv4();
     await repositories.createNewRepository(repo);
@@ -84,27 +88,39 @@ test.describe.parallel("Repositories", async () => {
   });
 
   test("Change Visibility", async () => {
-    let publicRepo = repositoriesData;
+    const publicRepo = repositoriesData;
     publicRepo.repositoryName += uuidv4();
     await repositories.createNewRepository(publicRepo);
     await repositories.changeVisibility(publicRepo.repositoryName);
-    const privateVisibility = await (await util.locator(repositoriesPageSelectors.visibilityLabel)).innerText();
+    const privateVisibility = await (
+      await util.locator(repositoriesPageSelectors.visibilityLabel)
+    ).innerText();
     await repositories.gotoRepositoriesPage();
     await repositories.changeVisibility(publicRepo.repositoryName);
-    const publicVisibility = await (await util.locator(repositoriesPageSelectors.visibilityLabel)).innerText();
-    await expect(privateVisibility).toBe('Private');
-    await expect(publicVisibility).toBe('Public');
+    const publicVisibility = await (
+      await util.locator(repositoriesPageSelectors.visibilityLabel)
+    ).innerText();
+    await expect(privateVisibility).toBe("Private");
+    await expect(publicVisibility).toBe("Public");
   });
 
   test("Clone Repository", async () => {
-    let repo = repositoriesData;
+    const repo = repositoriesData;
     repo.repositoryName += uuidv4();
-    const cloneUrl = 'https://github.com/' + userData.user2.userName +'/' + repo.repositoryName + '.git';
+    const cloneUrl =
+      "https://github.com/" +
+      userData.user2.userName +
+      "/" +
+      repo.repositoryName +
+      ".git";
     await repositories.createNewRepository(repo);
     await repositories.addInitCommit(repo.repositoryName);
-    await expect(await (await util.locator(repositoriesPageSelectors.cloneUrlInput)).inputValue()).toBe(cloneUrl);
+    await expect(
+      await (
+        await util.locator(repositoriesPageSelectors.cloneUrlInput)
+      ).inputValue()
+    ).toBe(cloneUrl);
   });
-
 
   test.afterEach(async () => {
     await page.close();

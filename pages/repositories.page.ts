@@ -18,11 +18,10 @@ export class repositoriesPage {
     repositoryDescription: string;
     repositoryVisibility: string;
   }): Promise<void> {
-    const receivedRepositoryLink = this.repositoryLink + repositoriesData.repositoryName + '"]';
+    const receivedRepositoryLink =
+      this.repositoryLink + repositoriesData.repositoryName + '"]';
     if (
-      !(await (
-        await this.util.locator(receivedRepositoryLink)
-      ).isVisible())
+      !(await (await this.util.locator(receivedRepositoryLink)).isVisible())
     ) {
       await this.util.waitForSelector(
         repositoriesPageSelectors.newRepositoryLink
@@ -44,8 +43,10 @@ export class repositoriesPage {
         repositoriesData.repositoryDescription
       );
 
-      if (repositoriesData.repositoryVisibility == 'private') {
-        await this.util.check(repositoriesPageSelectors.privateRepositoryRadioButton);
+      if (repositoriesData.repositoryVisibility == "private") {
+        await this.util.check(
+          repositoriesPageSelectors.privateRepositoryRadioButton
+        );
       }
       await this.util.waitForSelector(
         repositoriesPageSelectors.createRepositoryButton
@@ -105,7 +106,7 @@ export class repositoriesPage {
   }
 
   async getNumberOfRepositories(): Promise<number> {
-    let counter = await (
+    const counter = await (
       await this.util.locator(repositoriesPageSelectors.repositoriesCounter)
     ).innerText();
     return +counter;
@@ -177,13 +178,16 @@ export class repositoriesPage {
       repositoriesPageSelectors.linkProjectButton,
       repositoriesPageSelectors.projectsSearchInput
     );
-    await this.page.once('load', () => console.log('Page loaded!'));
+    await this.page.once("load", () => null);
     await this.util.waitForSelector(
       repositoriesPageSelectors.projectsSearchInput
     );
   }
 
-  async renameRepository(repositoryName: string, newName: string): Promise<void> {
+  async renameRepository(
+    repositoryName: string,
+    newName: string
+  ): Promise<void> {
     const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
 
     await this.util.waitForSelector(receivedRepositoryLink);
@@ -201,15 +205,16 @@ export class repositoriesPage {
       repositoriesPageSelectors.repositoryRenameInput
     );
 
-    await this.util.fill(repositoriesPageSelectors.repositoryRenameInput, newName);
-    await this.util.waitForSelector(
-      repositoriesPageSelectors.renameButton
+    await this.util.fill(
+      repositoriesPageSelectors.repositoryRenameInput,
+      newName
     );
+    await this.util.waitForSelector(repositoriesPageSelectors.renameButton);
     await this.util.click(
       repositoriesPageSelectors.renameButton,
       repositoriesPageSelectors.codeLink
     );
-    await this.page.once('load', () => console.log('Page loaded!'));
+    await this.page.once("load", () => null);
     await this.util.waitForSelector(repositoriesPageSelectors.codeLink);
   }
 
@@ -231,7 +236,10 @@ export class repositoriesPage {
       repositoriesPageSelectors.deleteRepositoryButton
     );
 
-    await this.util.clickTextLocator('Change visibility', repositoriesPageSelectors.changeVisibilityButton);
+    await this.util.clickTextLocator(
+      "Change visibility",
+      repositoriesPageSelectors.changeVisibilityButton
+    );
     await this.util.waitForSelector(
       repositoriesPageSelectors.changeVisibilityButton
     );
@@ -264,9 +272,7 @@ export class repositoriesPage {
       repositoriesPageSelectors.confirmChangeVisibilityButton,
       repositoriesPageSelectors.visibilityLabel
     );
-    await this.util.waitForSelector(
-      repositoriesPageSelectors.visibilityLabel
-    );
+    await this.util.waitForSelector(repositoriesPageSelectors.visibilityLabel);
   }
 
   async addInitCommit(repositoryName: string): Promise<void> {
@@ -299,13 +305,8 @@ export class repositoriesPage {
       repositoriesPageSelectors.codeDropDownMenuButton,
       repositoriesPageSelectors.dropDownMenuView
     );
-    await this.util.waitForSelector(
-      repositoriesPageSelectors.dropDownMenuView
-    );
+    await this.util.waitForSelector(repositoriesPageSelectors.dropDownMenuView);
 
-    await this.util.waitForSelector(
-      repositoriesPageSelectors.cloneUrlInput
-    );
+    await this.util.waitForSelector(repositoriesPageSelectors.cloneUrlInput);
   }
-  
 }

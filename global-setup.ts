@@ -1,5 +1,6 @@
 // global-setup.ts
-import { chromium, FullConfig, request } from "@playwright/test";
+// import { chromium, FullConfig, request } from "@playwright/test";
+import { chromium, FullConfig } from "@playwright/test";
 import { userData } from "./data/user.data";
 import { signInPage } from "./pages/signIn.page";
 //import * as fs from "fs";
