@@ -5,6 +5,8 @@ export const repositoriesPageSelectors = {
   newRepositoryLink: '.ml-3[href="/new"]',
   repositoryNameInput: 'input[name*="repository[name]"]',
   repositoryDescriptionInput: 'input[name*="repository[description]"]',
+  privateRepositoryRadioButton: '[value*="private"]',
+  publicRepositoryRadioButton: '[value*="public"]',
   createRepositoryButton: 'button[data-disable-with*="Creating"]',
   repositoryNavMenu: 'nav[aria-label*="Repository"]',
   codeLink: "#code-tab",
@@ -21,5 +23,15 @@ export const repositoriesPageSelectors = {
   projectLink: '.Truncate-text strong',
   projectsSearchInput: '#project-search-input',
   repositoryRenameInput: '[name="new_name"]',
-  renameButton: '.flex-self-end'
+  renameButton: '.flex-self-end',
+  changeVisibilityButton: '.js-repo-change-visibility-button',
+  popupChangeVisibilityButton: '.Button-label',
+  confirmChangeVisibilityButton: '.js-repo-visibility-proceed-button',
+  visibilityLabel: '.v-align-middle.mr-1',
+  readMeLink: '[data-ga-click*="Clicked README link"]',
+  commitNewFileButton: '[data-edit-text*="Commit new file"]',
+  codeDropDownMenuButton: '[data-hydro-click*="CLONE_OR_DOWNLOAD_BUTTON"]',
+  dropDownMenuView: '[data-target*="get-repo.modal"]',
+  cloneUrlInput: 'input[value*="https"]'
+  
 };

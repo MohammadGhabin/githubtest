@@ -16,6 +16,7 @@ export class repositoriesPage {
   async createNewRepository(repositoriesData: {
     repositoryName: string;
     repositoryDescription: string;
+    repositoryVisibility: string;
   }): Promise<void> {
     const receivedRepositoryLink = this.repositoryLink + repositoriesData.repositoryName + '"]';
     if (
@@ -42,6 +43,10 @@ export class repositoriesPage {
         repositoriesPageSelectors.repositoryDescriptionInput,
         repositoriesData.repositoryDescription
       );
+
+      if (repositoriesData.repositoryVisibility == 'private') {
+        await this.util.check(repositoriesPageSelectors.privateRepositoryRadioButton);
+      }
       await this.util.waitForSelector(
         repositoriesPageSelectors.createRepositoryButton
       );
@@ -50,7 +55,6 @@ export class repositoriesPage {
         repositoriesPageSelectors.codeLink
       );
       await this.util.waitForSelector(repositoriesPageSelectors.codeLink);
-
       await this.gotoRepositoriesPage();
     }
   }
@@ -205,6 +209,103 @@ export class repositoriesPage {
       repositoriesPageSelectors.renameButton,
       repositoriesPageSelectors.codeLink
     );
+    await this.page.once('load', () => console.log('Page loaded!'));
     await this.util.waitForSelector(repositoriesPageSelectors.codeLink);
   }
+
+  async changeVisibility(repositoryName: string): Promise<void> {
+    const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
+
+    await this.util.waitForSelector(receivedRepositoryLink);
+    await this.util.click(
+      receivedRepositoryLink,
+      repositoriesPageSelectors.settingLink
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.settingLink);
+
+    await this.util.click(
+      repositoriesPageSelectors.settingLink,
+      repositoriesPageSelectors.deleteRepositoryButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.deleteRepositoryButton
+    );
+
+    await this.util.clickTextLocator('Change visibility', repositoriesPageSelectors.changeVisibilityButton);
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.changeVisibilityButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.changeVisibilityButton,
+      repositoriesPageSelectors.popupChangeVisibilityButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.popupChangeVisibilityButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.popupChangeVisibilityButton,
+      repositoriesPageSelectors.popupChangeVisibilityButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.popupChangeVisibilityButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.popupChangeVisibilityButton,
+      repositoriesPageSelectors.confirmChangeVisibilityButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.confirmChangeVisibilityButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.confirmChangeVisibilityButton,
+      repositoriesPageSelectors.visibilityLabel
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.visibilityLabel
+    );
+  }
+
+  async addInitCommit(repositoryName: string): Promise<void> {
+    const receivedRepositoryLink = this.repositoryLink + repositoryName + '"]';
+
+    await this.util.waitForSelector(receivedRepositoryLink);
+    await this.util.click(
+      receivedRepositoryLink,
+      repositoriesPageSelectors.readMeLink
+    );
+    await this.util.waitForSelector(repositoriesPageSelectors.readMeLink);
+
+    await this.util.click(
+      repositoriesPageSelectors.readMeLink,
+      repositoriesPageSelectors.commitNewFileButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.commitNewFileButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.commitNewFileButton,
+      repositoriesPageSelectors.codeDropDownMenuButton
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.codeDropDownMenuButton
+    );
+
+    await this.util.click(
+      repositoriesPageSelectors.codeDropDownMenuButton,
+      repositoriesPageSelectors.dropDownMenuView
+    );
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.dropDownMenuView
+    );
+
+    await this.util.waitForSelector(
+      repositoriesPageSelectors.cloneUrlInput
+    );
+  }
+  
 }

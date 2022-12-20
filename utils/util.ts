@@ -61,4 +61,8 @@ export class Util {
   async fill(selector: string, value: string): Promise<void> {
     await (await this.locator(selector)).fill(value);
   }
+
+  async check(selector: string): Promise<void> {
+    await (await this.locator(selector)).check();
+  }
 }
