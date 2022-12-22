@@ -1,12 +1,13 @@
 // global-setup.ts
-// import { chromium, FullConfig, request } from "@playwright/test";
+//import { chromium, FullConfig, request } from "@playwright/test";
 import { chromium, FullConfig } from "@playwright/test";
 import { userData } from "./data/user.data";
 import { signInPage } from "./pages/signIn.page";
-//import * as fs from "fs";
-//import { commonData } from "./data/common.data";
+// import * as fs from "fs";
+// import { commonData } from "./data/common.data";
 import { Util } from "./utils/util";
 import { signInPageSelectors } from "./selectors/signInPage.selectors";
+// import { storageStateObject } from "./utils/storageState";
 
 async function globalSetup(config: FullConfig) {
   /*
@@ -21,9 +22,9 @@ async function globalSetup(config: FullConfig) {
       timeout: 3000,
     }
   );
-
+  let json: storageStateObject;
   if (response.ok()) {
-    var json = await (await response.json())?.record;
+    json = await (await response.json())?.record;
     await fs.writeFile("storageState.json", JSON.stringify(json), (error) => {
       if (error) {
         console.log("An error has occurred ", error);
@@ -32,11 +33,9 @@ async function globalSetup(config: FullConfig) {
       console.log("Data written successfully to json file");
     });
   }
-  
+
   const browser = await chromium.launch();
-  const context = await browser.newContext({
-    storageState: commonData.storageState,
-  });
+  const context = await browser.newContext({ storageState: json });
   const page = await context.newPage();
   const signin = await new signInPage(page);
   const util = await new Util(page);

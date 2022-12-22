@@ -1,4 +1,4 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect, Page, FullConfig } from "@playwright/test";
 import { userData } from "../../../data/user.data";
 import { signInPage } from "../../../pages/signIn.page";
 import { homePageSelectors } from "../../../selectors/homePage.selectors";
@@ -9,6 +9,7 @@ test.describe.serial("Sign-in & Sign-out", async () => {
   let page: Page;
   let signIn: signInPage;
   let util: Util;
+  let config: FullConfig;
 
   test.beforeEach(async ({ context }) => {
     page = await context.newPage();
@@ -33,5 +34,10 @@ test.describe.serial("Sign-in & Sign-out", async () => {
 
   test.afterEach(async () => {
     await page.close();
+  });
+
+  test.afterAll(async () => {
+    const { storageState } = config.projects[0].use;
+    await page.context().storageState({ path: storageState as string });
   });
 });
