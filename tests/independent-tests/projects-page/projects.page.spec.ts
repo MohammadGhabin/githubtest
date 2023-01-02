@@ -5,6 +5,7 @@ import { Util } from "../../../utils/util";
 import { signInPage } from "../../../pages/signIn.page";
 import { projectsPage } from "../../../pages/projects.page";
 import { projectsData } from "../../../data/projects.data";
+import { v4 as uuidv4 } from "uuid";
 
 test.describe.parallel("Projects", async () => {
   let page: Page;
@@ -27,13 +28,13 @@ test.describe.parallel("Projects", async () => {
   });
 
   test("Create New Project", async () => {
-    const projectName = projectsData.projectName;
+    const projectName = projectsData.projectName + uuidv4();
     await projects.createNewProject(projectName);
     await expect(await util.LocateElementByText(projectName)).toBeVisible();
   });
 
   test("Delete Project", async () => {
-    const projectName = projectsData.projectName;
+    const projectName = projectsData.projectName + uuidv4();
     await projects.deleteProject(projectName);
     await expect(
       !(await (await util.LocateElementByText(projectName)).isVisible())
@@ -43,9 +44,4 @@ test.describe.parallel("Projects", async () => {
   test.afterEach(async () => {
     await page.close();
   });
-
-  // test.afterAll(async ({browser, context}) => {
-  //   await context.close();
-  //   await browser.close();
-  // });
 });

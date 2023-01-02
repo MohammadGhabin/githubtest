@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tests": "npx playwright test tests/independent-tests/",
+    "tests": "npx playwright test tests/independent-tests/ && npx playwright test tests/dependent-tests/",
     "headed": "npx playwright test --headed",
     "debug": "npx playwright test --debug",
     "help": "npx playwright test --help",
     "chromium": "npx playwright test --project=chromium",
     "egde": "npx playwright test --project=Microsoft Edge",
     "webkit": "npx playwright test --project=webkit",
-    "postinstall": "npx playwright test tests/dependent-tests/"
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,10 @@
   "devDependencies": {
     "@playwright/test": "^1.28.1",
     "@types/uuid": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "eslint": "^8.30.0",
+    "eslint-plugin-no-loops": "^0.3.0",
     "playwright": "^1.28.1"
   },
   "dependencies": {
