@@ -35,9 +35,4 @@ test.describe.serial("Sign-in & Sign-out", async () => {
   test.afterEach(async () => {
     await page.close();
   });
-
-  test.afterAll(async () => {
-    const { storageState } = config.projects[0].use;
-    await page.context().storageState({ path: storageState as string });
-  });
 });
